@@ -60,16 +60,21 @@
   var cd = document.querySelectorAll("[data-countdown]");
   if (cd.length && C.openingDate) {
     var target = new Date(C.openingDate).getTime();
+    var set = function (el, v) {
+      if (!el || el.textContent === v) return;
+      el.textContent = v;
+      el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick");
+    };
     var tick = function () {
       var diff = target - Date.now();
       cd.forEach(function (box) {
         if (diff <= 0) { box.innerHTML = '<div><b>Now</b><small>Open</small></div>'; return; }
         var d = Math.floor(diff / 864e5), h = Math.floor(diff % 864e5 / 36e5),
             m = Math.floor(diff % 36e5 / 6e4), s = Math.floor(diff % 6e4 / 1e3);
-        box.querySelector("[data-d]").textContent = d;
-        box.querySelector("[data-h]").textContent = String(h).padStart(2, "0");
-        box.querySelector("[data-m]").textContent = String(m).padStart(2, "0");
-        box.querySelector("[data-s]").textContent = String(s).padStart(2, "0");
+        set(box.querySelector("[data-d]"), String(d));
+        set(box.querySelector("[data-h]"), String(h).padStart(2, "0"));
+        set(box.querySelector("[data-m]"), String(m).padStart(2, "0"));
+        set(box.querySelector("[data-s]"), String(s).padStart(2, "0"));
       });
     };
     tick(); setInterval(tick, 1000);

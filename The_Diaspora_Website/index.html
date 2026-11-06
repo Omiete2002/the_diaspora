@@ -15,8 +15,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Jost:wght@300;400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<script>
+  // loading screen setup: runs before the page paints
+  document.documentElement.classList.add("js", "is-loading");
+  window.__plStart = performance.now();
+  // safety net — if scripts fail, never leave the visitor stuck behind the loader
+  setTimeout(function () { document.documentElement.classList.add("pl-force"); }, 6500);
+</script>
 </head>
 <body>
+<div class="preloader" aria-hidden="true">
+  <div class="pl-glow"></div>
+  <div class="pl-inner">
+    <svg class="pl-ring" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet">
+      <path pathLength="1" d="M8 112 A92 92 0 0 1 192 112"/>
+      <path class="r2" pathLength="1" d="M-6 116 A106 106 0 0 1 206 116"/>
+    </svg>
+    <img class="pl-logo" src="assets/img/logo-light.png" alt="" width="764" height="303">
+    <p class="pl-tag">Many Cultures. One Home.</p>
+    <div class="pl-bar"><span></span></div>
+  </div>
+</div>
+<div class="scroll-progress" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap bar">
@@ -39,22 +59,27 @@
 </header>
 <main id="main">
 <section class="hero">
+  <canvas class="embers" aria-hidden="true"></canvas>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="rings-spin" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="98"/><circle cx="100" cy="100" r="84" style="stroke-dasharray:1 5"/></svg></div>
   <div class="hero-inner wrap">
     <h1 class="skip">The Diaspora Resto Lounge</h1>
     <img class="hero-logo" src="assets/img/logo-light.png" alt="The Diaspora Resto Lounge" width="764" height="303">
     <p class="accent">Many Cultures. One Home.</p>
+    <p class="hero-from">Welcome home from <span class="city-rotator" data-cities="London,Toronto,Atlanta,Houston,Johannesburg,Dubai,Accra,New York"><span>London</span></span></p>
     <p class="tag">Grills · Cocktails · Music · Connections</p>
     <div class="btn-row">
-      <a class="btn glow" href="visit.html#reserve">Reserve a Table</a>
-      <a class="btn light" href="food.html">View the Menu</a>
+      <a class="btn glow magnetic" href="visit.html#reserve">Reserve a Table</a>
+      <a class="btn light magnetic" href="food.html">View the Menu</a>
     </div>
   </div>
+  <a class="scroll-cue" href="#welcome" aria-label="Scroll down">Scroll<i></i></a>
   <div class="hero-foot"><span>Victoria Island · Lagos</span><span>Opening December 2026</span><span>Open seven days</span></div>
 </section>
 
 <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>London</span><i>✦</i><span>Toronto</span><i>✦</i><span>Atlanta</span><i>✦</i><span>Houston</span><i>✦</i><span>Johannesburg</span><i>✦</i><span>Dubai</span><i>✦</i><span>Lagos</span><i>✦</i><span>London</span><i>✦</i><span>Toronto</span><i>✦</i><span>Atlanta</span><i>✦</i><span>Houston</span><i>✦</i><span>Johannesburg</span><i>✦</i><span>Dubai</span><i>✦</i><span>Lagos</span><i>✦</i></div></div>
 
-<section class="section bg-cream">
+<section class="section bg-cream" id="welcome">
   <div class="wrap split">
     <div class="reveal">
       <div class="eyebrow">Welcome home</div>
@@ -75,11 +100,11 @@
       <h2 class="title">Three moments, one home</h2>
     </div>
     <div class="moments">
-      <article class="moment reveal"><figure><img src="assets/img/grill-chicken.jpg" alt="Grilled chicken" loading="lazy"></figure>
+      <article data-tilt class="moment reveal"><figure><img src="assets/img/grill-chicken.jpg" alt="Grilled chicken" loading="lazy"></figure>
         <div class="body"><span class="time">12 – 4 PM</span><h3>Lunch</h3><p>Grilled meals, burgers, business lunches and casual dining — fast, consistent and generous.</p></div></article>
-      <article class="moment reveal d1"><figure><img src="assets/img/board-global-grill.jpg" alt="Sharing board" loading="lazy"></figure>
+      <article data-tilt class="moment reveal d1"><figure><img src="assets/img/board-global-grill.jpg" alt="Sharing board" loading="lazy"></figure>
         <div class="body"><span class="time">4 – 8 PM</span><h3>After Work</h3><p>Cocktails, sharing platters, social games and networking as the city clocks out.</p></div></article>
-      <article class="moment reveal d2"><figure><img src="assets/img/sig-vi-connection.jpg" alt="The VI Connection cocktail" loading="lazy"></figure>
+      <article data-tilt class="moment reveal d2"><figure><img src="assets/img/sig-vi-connection.jpg" alt="The VI Connection cocktail" loading="lazy"></figure>
         <div class="body"><span class="time">8 PM – Late</span><h3>Evening</h3><p>Themed entertainment, karaoke, DJs, reunions and group reservations.</p></div></article>
     </div>
   </div>
@@ -92,19 +117,19 @@
       <h2 class="title">Flame-grilled favourites</h2>
       <p class="lead">Chicken, prawns, steak, salmon and burgers — served on signature platter boards with fries, potato wedges or yam fries.</p>
     </div>
-    <div class="dish-grid"><article class="dish reveal d0 ">
+    <div class="dish-grid"><article data-tilt class="dish reveal d0 ">
   <figure><img src="assets/img/grill-chicken.jpg" alt="The Homecoming Chicken" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The Homecoming Chicken</h3><span class="price">₦19,500</span></div><p>Peri-peri, smoky BBQ or house herb marinade.</p></div>
 </article>
-<article class="dish reveal d1 ">
+<article data-tilt class="dish reveal d1 ">
   <figure><img src="assets/img/grill-prawns.jpg" alt="Lagos to London Prawns" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>Lagos to London Prawns</h3><span class="price">₦29,500</span></div><p>Chargrilled prawns, garlic butter and fresh lemon.</p></div>
 </article>
-<article class="dish reveal d2 ">
+<article data-tilt class="dish reveal d2 ">
   <figure><img src="assets/img/grill-steak.jpg" alt="The Diaspora Steak" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The Diaspora Steak</h3><span class="price">₦39,500</span></div><p>Grilled beef steak, cooked to your preference.</p></div>
 </article>
-<article class="dish reveal d3 ">
+<article data-tilt class="dish reveal d3 ">
   <figure><img src="assets/img/grill-salmon.jpg" alt="Atlantic Connection Salmon" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>Atlantic Connection Salmon</h3><span class="price">₦38,500</span></div><p>Grilled salmon fillet, citrus and herb butter.</p></div>
 </article></div>
@@ -136,31 +161,31 @@
       <h2 class="title">A little of everywhere</h2>
       <p class="lead">Seven house signatures named for the journeys that brought us here — right here in Lagos.</p>
     </div>
-    <div class="scroller fit7"><article class="dish reveal d0 sq">
+    <div class="scroller fit7"><article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-homecoming.jpg" alt="The Homecoming" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The Homecoming</h3><span class="price">₦12,500</span></div><p>Vodka, passion fruit, vanilla and lime.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-lagos-london.jpg" alt="Lagos to London" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>Lagos to London</h3><span class="price">₦12,500</span></div><p>Gin, elderflower, cucumber and tonic.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-sunset.jpg" alt="The Diaspora Sunset" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The Diaspora Sunset</h3><span class="price">₦12,500</span></div><p>Tequila, pineapple, orange and grenadine.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-detty-december.jpg" alt="Detty December" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>Detty December</h3><span class="price">₦13,500</span></div><p>White rum, coconut, pineapple and lime.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-vi-connection.jpg" alt="The VI Connection" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The VI Connection</h3><span class="price">₦12,000</span></div><p>Vodka, hibiscus, lemon and soda.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-across-borders.jpg" alt="Across Borders" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>Across Borders</h3><span class="price">₦13,500</span></div><p>Bourbon, ginger, bitters and citrus.</p></div>
 </article>
-<article class="dish reveal d0 sq">
+<article data-tilt class="dish reveal d0 sq">
   <figure><img src="assets/img/sig-reunion-pitcher.jpg" alt="The Reunion Pitcher" loading="lazy"></figure>
   <div class="body"><div class="row"><h3>The Reunion Pitcher</h3><span class="price">₦42,000</span></div><p>A tropical sharing cocktail for your table.</p></div>
 </article></div>
@@ -268,5 +293,6 @@
 </footer>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/home.js"></script>
 </body>
 </html>
