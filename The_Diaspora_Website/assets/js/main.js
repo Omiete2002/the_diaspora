@@ -14,14 +14,23 @@
 
   /* ---- mobile nav ---- */
   var toggle = document.querySelector(".menu-toggle");
-  if (toggle) {
-    toggle.addEventListener("click", function () {
-      var open = body.classList.toggle("nav-open");
+  function setNav(open) {
+    body.classList.toggle("nav-open", open);
+    document.documentElement.classList.toggle("nav-open", open);
+    if (toggle) {
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+  }
+  if (toggle) {
+    toggle.addEventListener("click", function () { setNav(!body.classList.contains("nav-open")); });
     document.querySelectorAll(".nav a").forEach(function (a) {
-      a.addEventListener("click", function () { body.classList.remove("nav-open"); });
+      a.addEventListener("click", function () { setNav(false); });
     });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setNav(false); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 1080) setNav(false); });
+    // returning via the browser back button can restore a page with the menu still open
+    window.addEventListener("pageshow", function () { setNav(false); });
   }
 
   /* ---- reveal on scroll ---- */

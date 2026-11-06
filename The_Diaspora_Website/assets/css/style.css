@@ -98,7 +98,12 @@ h1,h2,h3,h4{font-family:var(--f-display);font-weight:300;margin:0;line-height:1.
 .menu-toggle span:nth-child(1){top:16px}.menu-toggle span:nth-child(2){top:22px}.menu-toggle span:nth-child(3){top:28px}
 
 /* scrolled / light-page header */
-.site-header.solid{background:rgba(253,246,238,.97);box-shadow:0 1px 0 var(--line);padding:.6rem 0;backdrop-filter:blur(8px)}
+/* NOTE: the background + blur live on a pseudo-element. Putting backdrop-filter on the header itself
+   turns it into the containing block for the fixed mobile menu, which squeezed the menu into the header bar. */
+.site-header::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(253,246,238,.97);box-shadow:0 1px 0 var(--line);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .4s var(--ease)}
+.site-header.solid{padding:.6rem 0}
+.site-header.solid::before{opacity:1}
 .site-header.solid .brand img{height:44px}
 .site-header.solid .logo-light{display:none}
 .site-header.solid .logo-dark{display:block}
@@ -110,17 +115,37 @@ h1,h2,h3,h4{font-family:var(--f-display);font-weight:300;margin:0;line-height:1.
 @media (max-width:1080px){
   .menu-toggle{display:block;z-index:60}
   .nav{
-    position:fixed;inset:0;background:var(--espresso);flex-direction:column;justify-content:center;gap:1.6rem;
-    opacity:0;pointer-events:none;transition:opacity .4s var(--ease);
+    position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;z-index:55;
+    background:radial-gradient(ellipse 90% 60% at 50% 40%,#4a3528,var(--espresso) 55%,var(--deep));
+    flex-direction:column;justify-content:center;gap:1.5rem;padding:5.5rem 1.5rem 3rem;overflow-y:auto;
+    visibility:hidden;pointer-events:none;
+    clip-path:circle(0 at calc(100% - 2.6rem) 2.4rem);
+    transition:clip-path .65s cubic-bezier(.77,0,.18,1),visibility 0s linear .65s;
   }
-  .nav a,.site-header.solid .nav a{color:var(--cream);font-size:.95rem}
-  .site-header.solid .nav .btn{border-color:var(--cream);color:var(--cream)}
-  body.nav-open .nav{opacity:1;pointer-events:auto}
-  body.nav-open .menu-toggle{color:var(--cream)}
+  body.nav-open .nav{
+    visibility:visible;pointer-events:auto;clip-path:circle(150% at calc(100% - 2.6rem) 2.4rem);
+    transition:clip-path .75s cubic-bezier(.77,0,.18,1),visibility 0s;
+  }
+  .nav a,.site-header.solid .nav a{color:var(--cream);font-size:1rem;opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .5s var(--ease)}
+  .site-header .nav a[aria-current="page"],.site-header.solid .nav a[aria-current="page"]{color:var(--glow)}
+  body.nav-open .scroll-progress{opacity:0}
+  .nav .btn,.site-header.solid .nav .btn{font-size:.78rem;padding:.9rem 1.8rem}
+  body.nav-open .site-header .nav a{opacity:1;transform:none}
+  body.nav-open .site-header .nav a:nth-child(1){transition-delay:.18s}body.nav-open .site-header .nav a:nth-child(2){transition-delay:.23s}
+  body.nav-open .site-header .nav a:nth-child(3){transition-delay:.28s}body.nav-open .site-header .nav a:nth-child(4){transition-delay:.33s}
+  body.nav-open .site-header .nav a:nth-child(5){transition-delay:.38s}body.nav-open .site-header .nav a:nth-child(6){transition-delay:.43s}
+  body.nav-open .site-header .nav a:nth-child(7){transition-delay:.48s}body.nav-open .site-header .nav a:nth-child(8){transition-delay:.53s}
+  .nav .btn,.site-header.solid .nav .btn{border-color:var(--cream);color:var(--cream);margin-top:.6rem}
+  body.nav-open .menu-toggle,body.nav-open .site-header.solid .menu-toggle{color:var(--cream)}
   body.nav-open .menu-toggle span:nth-child(1){transform:translateY(6px) rotate(45deg)}
   body.nav-open .menu-toggle span:nth-child(2){opacity:0}
   body.nav-open .menu-toggle span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-  body.nav-open{overflow:hidden}
+  html.nav-open,body.nav-open{overflow:hidden}
+  /* keep the logo visible above the open menu */
+  .brand{position:relative;z-index:60}
+  body.nav-open .brand .logo-dark{display:none}
+  body.nav-open .brand .logo-light{display:block}
+  body.nav-open .site-header::before{opacity:0}
 }
 
 /* ---------- hero (home) ---------- */
