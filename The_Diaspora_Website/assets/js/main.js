@@ -113,6 +113,16 @@
     if (d < today) cell.classList.add("past");
   });
 
+  /* ---- What's On: mark tonight (Lagos time) ---- */
+  (function () {
+    var nights = document.querySelectorAll("[data-day]");
+    if (!nights.length) return;
+    var names = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    var lagos = new Date(Date.now() + (new Date().getTimezoneOffset() + 60) * 60000);
+    var today = names[lagos.getDay()];
+    nights.forEach(function (el) { if (el.getAttribute("data-day") === today) el.classList.add(el.tagName === "A" ? "is-today" : "is-today"); });
+  })();
+
   /* ---- reservation form → WhatsApp / email ---- */
   var form = document.getElementById("reserve-form");
   if (form) {
@@ -122,6 +132,16 @@
     }
     // preselect package from ?package= in the URL (links from the December page)
     var params = new URLSearchParams(location.search);
+    // ?day=monday → pre-fill the date with the next Monday
+    var dayParam = params.get("day");
+    if (dayParam && dateInput) {
+      var idx = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"].indexOf(dayParam);
+      if (idx > -1) {
+        var d = new Date(); d.setHours(12);
+        d.setDate(d.getDate() + ((idx - d.getDay() + 7) % 7));
+        dateInput.value = d.toISOString().slice(0, 10);
+      }
+    }
     var pk = params.get("package");
     if (pk) {
       var sel = form.querySelector('[name="occasion"]');
