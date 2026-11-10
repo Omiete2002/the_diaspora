@@ -739,3 +739,15 @@ body.loaded .hero-slides img,.pl-force .hero-slides img{animation-play-state:run
   .mb-groups.cols-2{grid-template-columns:1fr}
 }
 @media (max-width:480px){.m-name{font-size:.96rem}.m-price{font-size:.92rem}}
+
+/* secondary inset photo (Wine & Beer) */
+.mb-inset{position:absolute;right:-2.2rem;bottom:-2.6rem;width:50%;z-index:2;
+  border:7px solid var(--paper);box-shadow:0 22px 44px -24px rgba(42,29,22,.5)}
+.menu-block.tint .mb-inset{border-color:var(--cream)}
+.mb-inset img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:0;filter:saturate(.85)}
+.mb-media.has-inset figcaption{margin-top:3.6rem;text-align:left;padding-right:52%}
+@media (max-width:900px){
+  .mb-media.has-inset .mb-frame{display:grid;grid-template-columns:1.5fr 1fr;gap:10px}
+  .mb-inset{position:static;width:auto;border:0;box-shadow:none}
+  .mb-inset img{aspect-ratio:auto;height:100%;max-height:240px}
+}
