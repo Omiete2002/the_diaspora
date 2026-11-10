@@ -687,3 +687,10 @@ body.loaded .hero-slides img,.pl-force .hero-slides img{animation-play-state:run
 .cta-band .wrap{z-index:2}
 
 @media (prefers-reduced-motion:reduce){.hero-slides img:first-child{opacity:1;transform:none}}
+
+/* pillar photos (Our Story) */
+.pillar-img{margin:0 0 1.4rem;overflow:hidden;position:relative}
+.pillar-img img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 1.4s var(--ease)}
+.pillar:hover .pillar-img img{transform:scale(1.06)}
+.pillar-img::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(93,62,44,.08);pointer-events:none}
+.pillars .pillar{padding-top:1.8rem}
